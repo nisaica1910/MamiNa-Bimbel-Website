@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}{% block admin %}
+<h1 style="font-size:2.2rem">Ringkasan {{ ym|bulan }}</h1>
+<div class="stats">
+  <div class="stat c-butter"><b>{{ stats.baru }}</b>pendaftar baru</div>
+  <div class="stat c-sky"><b>{{ stats.murid }}</b>murid aktif</div>
+  <div class="stat c-pink"><b>{{ stats.belum }}</b>belum lunas bulan ini</div>
+  <div class="stat c-mint"><b>{{ stats.masuk|rupiah }}</b>pembayaran masuk</div>
+</div>
+<h2>Kuota kelas</h2>
+<div class="grid">{% for c in classes %}<div class="card c-{{ c.color }}"><h3>{{ c.name }}</h3>{{ c.terisi }} / {{ c.quota }} murid
+  <div class="bar" style="margin-top:8px"><i style="width:{{ (c.terisi / c.quota * 100) if c.quota else 0 }}%"></i></div></div>{% endfor %}</div>
+{% endblock %}

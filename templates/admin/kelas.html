@@ -1,0 +1,17 @@
+{% extends "admin/base.html" %}{% block admin %}
+<h1 style="font-size:2.2rem">Kelas</h1>
+<div class="scroll"><table class="tbl"><tr><th>Nama</th><th>Usia</th><th>Jadwal</th><th>Tarif/jam</th><th>Murid</th><th></th></tr>
+{% for c in classes %}<tr><td><span class="chip c-{{ c.color }}">{{ c.name }}</span></td><td>{{ c.age }}</td><td>{{ c.schedule }}</td><td>{{ c.price|rupiah }}</td><td>{{ c.terisi }}/{{ c.quota }}</td>
+<td><div class="acts"><a class="btn sm soft" href="{{ url_for('kelas', edit=c.id) }}">Ubah</a>
+<form class="inline" method="post" action="{{ url_for('kelas_hapus', id=c.id) }}" onsubmit="return confirm('Hapus kelas?')"><button class="btn sm danger">Hapus</button></form></div></td></tr>{% endfor %}</table></div>
+<h2 style="margin-top:36px">{{ 'Ubah kelas' if edit else 'Tambah kelas' }}</h2>
+<form class="box" method="post"><input type="hidden" name="id" value="{{ edit.id if edit }}">
+  <label>Nama kelas</label><input name="name" value="{{ edit.name if edit }}" required>
+  <div class="row"><div><label>Rentang usia</label><input name="age" placeholder="Anak-anak" value="{{ edit.age if edit }}" required></div>
+  <div><label>Durasi</label><input name="duration" placeholder="1 jam" value="{{ edit.duration if edit }}" required></div></div>
+  <label>Jadwal</label><input name="schedule" placeholder="Sen & Rab, 15.30" value="{{ edit.schedule if edit }}" required>
+  <div class="row"><div><label>Tarif per jam (Rp)</label><input name="price" type="number" min="0" value="{{ edit.price if edit }}" required></div>
+  <div><label>Kuota murid</label><input name="quota" type="number" min="1" value="{{ edit.quota if edit }}" required></div></div>
+  <label>Warna kartu</label><select name="color">{% for w in cfg.WARNA_KELAS %}<option value="{{ w }}" {{ 'selected' if edit and edit.color==w }}>{{ w }}</option>{% endfor %}</select>
+  <p style="margin-top:18px"><button class="btn">Simpan kelas</button></p></form>
+{% endblock %}

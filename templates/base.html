@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="id"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}{{ cfg.NAMA }} – Bimbel Mewarnai Anak{% endblock %}</title>
+<meta name="description" content="Kelas mewarnai dan menggambar untuk anak-anak. Kelas kecil, suasana santai, hasil karya dipajang.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head><body>
+{% if demo %}<div class="demo">Mode demo: data disimpan di memori. Isi FIREBASE_CREDENTIALS di .env untuk pakai Firebase.</div>{% endif %}
+<header class="nav">
+  <a class="brand" href="{{ url_for('index') }}"><span class="dots"><i></i><i></i><i></i></span><span class="wordmark">{% set cols = ['#E8548C','#F28C28','#3BAA6F','#3C8DDE','#8B5CF6'] %}{% for ch in cfg.NAMA %}<span style="color:{{ cols[loop.index0 % 5] }}">{{ ch }}</span>{% endfor %}</span></a>
+  <nav aria-label="Menu utama">
+    <a href="{{ url_for('index') }}#kelas">Kelas</a>
+    <a href="{{ url_for('galeri') }}">Karya anak</a>
+    <a href="{{ url_for('index') }}#lokasi">Lokasi</a>
+    <a href="{{ url_for('daftar') }}">Daftar</a>
+    {% if is_admin %}<a href="{{ url_for('dashboard') }}">Admin</a>{% endif %}
+  </nav>
+</header>
+{% with msgs = get_flashed_messages(with_categories=true) %}{% for c, m in msgs %}<div class="flash {{ c }}" role="status">{{ m }}</div>{% endfor %}{% endwith %}
+<main>{% block content %}{% endblock %}</main>
+<footer>
+  <p>© {{ cfg.NAMA }} · {{ cfg.ALAMAT }} {% if cfg.INSTAGRAM %}· <a href="https://instagram.com/{{ cfg.INSTAGRAM }}">@{{ cfg.INSTAGRAM }}</a>{% endif %}</p>
+  <p><a href="{{ url_for('login') }}" class="muted">Masuk admin</a></p>
+</footer>
+<a class="btn wa fab" href="{{ wa_link(cfg.WHATSAPP, 'Halo kak, saya mau tanya soal kelas mewarnai.') }}">💬 <span>Tanya lewat WhatsApp</span></a>
+</body></html>

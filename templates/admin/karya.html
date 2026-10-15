@@ -1,0 +1,10 @@
+{% extends "admin/base.html" %}{% block admin %}
+<h1 style="font-size:2.2rem">Karya anak</h1>
+<form class="box" method="post" enctype="multipart/form-data">
+  <label>Foto (boleh pilih beberapa, JPG/PNG/WEBP, maks 8 MB)</label><input type="file" name="foto" accept="image/*" multiple required>
+  <label>Judul</label><input name="title" placeholder="Pelangi di atas sawah">
+  <div class="row"><div><label>Nama anak</label><input name="child"></div><div><label>Kelas</label><select name="class_id">{% for c in classes %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}</select></div></div>
+  <p style="margin-top:18px"><button class="btn">Unggah karya</button></p></form>
+<div class="gallery" style="margin-top:30px">{% for a in items %}<figure><img src="{{ a.url }}" alt="{{ a.title }}" loading="lazy"><figcaption><b>{{ a.title }}</b>
+<form method="post" action="{{ url_for('karya_hapus', id=a.id) }}" onsubmit="return confirm('Hapus karya?')" style="margin-top:6px"><button class="btn sm danger">Hapus</button></form></figcaption></figure>{% endfor %}</div>
+{% endblock %}

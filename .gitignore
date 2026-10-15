@@ -1,0 +1,5 @@
+.env
+serviceAccountKey.json
+__pycache__/
+static/uploads/*
+!static/uploads/.gitkeep

@@ -1,0 +1,14 @@
+{% extends "admin/base.html" %}{% block admin %}
+<h1 style="font-size:2.2rem">Murid</h1>
+<div class="scroll"><table class="tbl"><tr><th>Nama</th><th>Orang tua</th><th>Kelas</th><th>Status</th><th></th></tr>
+{% for s in rows %}<tr><td><b>{{ s.name }}</b></td><td>{{ s.parent }}<br><span class="muted">{{ s.phone }}</span></td><td>{{ names.get(s.class_id, '-') }}</td>
+<td><span class="tag {{ 'lunas' if s.active else 'belum' }}">{{ 'aktif' if s.get('active', True) else 'nonaktif' }}</span></td>
+<td><div class="acts"><form class="inline" method="post" action="{{ url_for('murid_aksi', id=s.id, aksi='toggle') }}"><button class="btn sm soft">{{ 'Nonaktifkan' if s.get('active', True) else 'Aktifkan' }}</button></form>
+<form class="inline" method="post" action="{{ url_for('murid_aksi', id=s.id, aksi='hapus') }}" onsubmit="return confirm('Hapus murid?')"><button class="btn sm danger">Hapus</button></form></div></td></tr>
+{% else %}<tr><td colspan="5">Belum ada murid.</td></tr>{% endfor %}</table></div>
+<h2 style="margin-top:36px">Tambah murid</h2>
+<form class="box" method="post"><label>Nama anak</label><input name="name" required>
+<div class="row"><div><label>Usia</label><input name="age" type="number"></div><div><label>Kelas</label><select name="class_id" required>{% for c in classes %}<option value="{{ c.id }}">{{ c.name }}{{ ' (penuh)' if c.sisa<=0 }}</option>{% endfor %}</select></div></div>
+<label>Nama orang tua</label><input name="parent" required><label>Nomor WhatsApp</label><input name="phone" type="tel" required>
+<p style="margin-top:18px"><button class="btn">Tambah murid</button></p></form>
+{% endblock %}

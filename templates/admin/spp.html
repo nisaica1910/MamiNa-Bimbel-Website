@@ -1,0 +1,13 @@
+{% extends "admin/base.html" %}{% block admin %}
+<h1 style="font-size:2.2rem">Pembayaran {{ ym|bulan }}</h1>
+<p class="muted">Tagihan = tarif per jam × jumlah kehadiran bulan ini (dari menu Absensi). Pembayaran: {{ cfg.PEMBAYARAN }}.</p>
+<form method="get" style="max-width:240px"><label>Bulan</label><input type="month" name="bulan" value="{{ ym }}" onchange="this.form.submit()"></form>
+<p style="margin-top:14px"><b>Terkumpul: {{ total|rupiah }}</b></p>
+<div class="scroll"><table class="tbl"><tr><th>Murid</th><th>Kelas</th><th>Tarif/jam</th><th>Hadir</th><th>Tagihan</th><th>Status</th><th>Aksi</th></tr>
+{% for r in rows %}<tr><td><b>{{ r.s.name }}</b></td><td>{{ r.kelas }}</td><td>{{ r.tarif|rupiah }}</td><td>{{ r.jam }} jam</td><td><b>{{ r.tagihan|rupiah }}</b></td>
+<td><span class="tag {{ 'lunas' if r.lunas else 'belum' }}">{{ 'lunas' if r.lunas else 'belum' }}</span></td>
+<td><div class="acts"><form class="inline" method="post"><input type="hidden" name="bulan" value="{{ ym }}"><input type="hidden" name="sid" value="{{ r.s.id }}">
+<button class="btn sm {{ 'soft' if r.lunas }}">{{ 'Batalkan' if r.lunas else 'Tandai lunas' }}</button></form>
+{% if not r.lunas and r.jam %}<a class="btn sm wa" href="{{ r.wa }}">Kirim rincian via WA</a>{% endif %}</div></td></tr>
+{% else %}<tr><td colspan="7">Belum ada murid aktif.</td></tr>{% endfor %}</table></div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Karya anak – {{ cfg.NAMA }}{% endblock %}
+{% block content %}<section><div class="wrap">
+  <h1 style="font-size:2.6rem">Karya anak-anak</h1>
+  <div class="filters"><a href="{{ url_for('galeri') }}" class="{{ '' if kelas else 'on' }}">Semua</a>
+    {% for c in classes %}<a href="{{ url_for('galeri', kelas=c.id) }}" class="{{ 'on' if kelas==c.id else '' }}">{{ c.name }}</a>{% endfor %}</div>
+  <div class="gallery">{% for a in items %}<figure><img src="{{ a.url }}" alt="{{ a.title }}" loading="lazy">
+    <figcaption><b>{{ a.title }}</b>{% if a.child %}<br>{{ a.child }}{% endif %}{% if names.get(a.class_id) %} · {{ names[a.class_id] }}{% endif %}</figcaption></figure>
+  {% else %}<p>Belum ada karya di sini. Pantau terus ya.</p>{% endfor %}</div>
+</div></section>{% endblock %}

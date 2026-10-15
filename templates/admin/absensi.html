@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}{% block admin %}
+<h1 style="font-size:2.2rem">Absensi</h1>
+<form method="get" class="row" style="max-width:560px;margin-bottom:20px">
+  <div><label>Kelas</label><select name="kelas" onchange="this.form.submit()">{% for c in classes %}<option value="{{ c.id }}" {{ 'selected' if c.id==kid }}>{{ c.name }}</option>{% endfor %}</select></div>
+  <div><label>Tanggal</label><input type="date" name="tanggal" value="{{ tgl }}" onchange="this.form.submit()"></div></form>
+<form method="post"><input type="hidden" name="kelas" value="{{ kid }}"><input type="hidden" name="tanggal" value="{{ tgl }}">
+<div class="scroll"><table class="tbl"><tr><th>Murid</th><th>Kehadiran</th></tr>
+{% for s in students %}{% set v = saved.get(s.id, 'hadir') %}<tr><td><b>{{ s.name }}</b></td><td><div class="radios">
+{% for o in ['hadir','izin','alpa'] %}<label><input type="radio" name="s_{{ s.id }}" value="{{ o }}" {{ 'checked' if v==o }}> {{ o|capitalize }}</label>{% endfor %}</div></td></tr>
+{% else %}<tr><td colspan="2">Belum ada murid di kelas ini.</td></tr>{% endfor %}</table></div>
+{% if students %}<p style="margin-top:18px"><button class="btn" name="simpan" value="1">Simpan absensi</button></p>{% endif %}</form>
+{% endblock %}

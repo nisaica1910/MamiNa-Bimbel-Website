@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block title %}Daftar – {{ cfg.NAMA }}{% endblock %}
+{% block content %}<section><div class="wrap">
+  <h1 style="font-size:2.6rem">Daftarkan anak</h1>
+  <p class="muted">Setelah kirim formulir, kami hubungi lewat WhatsApp untuk konfirmasi jadwal.</p>
+  <form class="box" method="post">
+    <label for="child">Nama anak</label><input id="child" name="child" required>
+    <div class="row"><div><label for="age">Usia (tahun)</label><input id="age" name="age" type="number" min="3" max="15" required></div>
+      <div><label for="class_id">Pilihan kelas</label><select id="class_id" name="class_id" required>
+        <option value="">Pilih kelas</option>
+        {% for c in classes %}<option value="{{ c.id }}" {{ 'selected' if pre==c.id }}>{{ c.name }} – {{ c.price|rupiah }}/jam{{ ' (penuh)' if c.sisa<=0 }}</option>{% endfor %}</select></div></div>
+    <label for="parent">Nama orang tua</label><input id="parent" name="parent" required>
+    <label for="phone">Nomor WhatsApp</label><input id="phone" name="phone" type="tel" placeholder="08123456789" required>
+    <label for="note">Catatan (boleh kosong)</label><textarea id="note" name="note" rows="3"></textarea>
+    <p style="margin-top:18px"><button class="btn" type="submit">Kirim pendaftaran</button></p>
+  </form>
+</div></section>{% endblock %}

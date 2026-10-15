@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero"><div class="wrap">
+  <div>
+    <h1>{{ cfg.TAGLINE }}</h1>
+    <p class="lead">Kelas mewarnai dan menggambar untuk anak-anak. Santai, tanpa nilai bagus atau jelek, dan setiap karya dipajang dengan bangga.</p>
+    <div class="cta"><a class="btn" href="{{ url_for('daftar') }}">Daftarkan anak</a><a class="btn soft" href="{{ url_for('galeri') }}">Lihat karya anak</a></div>
+  </div>
+  <div class="crayons" aria-hidden="true"><div class="crayon"></div><div class="crayon"></div><div class="crayon"></div><div class="crayon"></div><div class="crayon"></div><div class="crayon"></div></div>
+</div></section>
+
+<section id="kelas" class="band"><div class="wrap">
+  <h2>Pilih kelas</h2>
+  <p class="muted">Kelas diisi sedikit anak supaya setiap anak sempat didampingi.</p>
+  <div class="grid">
+  {% for c in classes %}
+    <article class="card c-{{ c.color or 'pink' }}">
+      <h3>{{ c.name }}</h3>
+      {% if c.age and c.age != 'Anak-anak' %}<span class="chip">{{ c.age }}</span>{% endif %}
+      <ul><li>🕒 {{ c.schedule }}</li><li>⏱ {{ c.duration }} per pertemuan</li>
+          <li>{% if c.sisa > 0 %}Sisa {{ c.sisa }} dari {{ c.quota }} kursi{% else %}Kelas penuh, masuk daftar tunggu{% endif %}</li></ul>
+      <p class="price">{{ c.price|rupiah }} <small style="font-size:.9rem">/ jam</small></p>
+      <a class="btn" href="{{ url_for('daftar', kelas=c.id) }}">Daftar kelas ini</a>
+    </article>
+  {% else %}<p>Kelas belum diisi. Tambahkan lewat menu admin.</p>{% endfor %}
+  </div>
+</div></section>
+
+{% if karya %}
+<section><div class="wrap">
+  <h2>Karya terbaru dari murid kami</h2>
+  <div class="gallery">{% for a in karya %}<figure><img src="{{ a.url }}" alt="{{ a.title }}" loading="lazy"><figcaption><b>{{ a.title }}</b>{% if a.child %} oleh {{ a.child }}{% endif %}</figcaption></figure>{% endfor %}</div>
+  <a class="btn soft" href="{{ url_for('galeri') }}">Semua karya</a>
+</div></section>
+{% endif %}
+
+<section class="band"><div class="wrap">
+  <h2>Cara bergabung</h2>
+  <div class="steps">
+    <div><h3>Isi formulir</h3><p>Cukup data anak dan kontak orang tua.</p></div>
+    <div><h3>Kami hubungi via WhatsApp</h3><p>Konfirmasi kelas dan jadwal percobaan.</p></div>
+    <div><h3>Mulai mewarnai</h3><p>Anak datang membawa semangat, alat kami siapkan.</p></div>
+  </div>
+</div></section>
+
+{% if cfg.TESTIMONI %}<section><div class="wrap">
+  <h2>Kata orang tua</h2>
+  <div class="grid">{% for nama, ket, isi in cfg.TESTIMONI %}<blockquote class="quote" style="margin:0"><p>“{{ isi }}”</p><b>{{ nama }}</b><br><span class="muted">{{ ket }}</span></blockquote>{% endfor %}</div>
+</div></section>{% endif %}
+
+<section id="lokasi" class="band"><div class="wrap two">
+  <div><h2>Datang ke studio kami</h2><p>{{ cfg.ALAMAT }}</p><p class="muted">{{ cfg.JAM_BUKA }}</p>
+    <p><b>Pembayaran:</b> {{ cfg.PEMBAYARAN }}</p>
+    <a class="btn wa" href="{{ wa_link(cfg.WHATSAPP) }}">Chat WhatsApp</a></div>
+  <iframe class="map" title="Peta lokasi" loading="lazy" src="https://maps.google.com/maps?q={{ cfg.ALAMAT|urlencode }}&output=embed"></iframe>
+</div></section>
+{% endblock %}

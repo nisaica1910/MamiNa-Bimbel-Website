@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}{% block admin %}
+<h1 style="font-size:2.2rem">Pendaftar</h1>
+<div class="scroll"><table class="tbl"><tr><th>Anak</th><th>Orang tua</th><th>Kelas</th><th>Status</th><th>Aksi</th></tr>
+{% for r in rows %}<tr><td><b>{{ r.child }}</b><br><span class="muted">{{ r.age }} th</span></td>
+  <td>{{ r.parent }}<br><a href="{{ wa_link(r.phone, 'Halo ' ~ r.parent ~ ', terima kasih sudah mendaftarkan ' ~ r.child ~ ' di ' ~ cfg.NAMA ~ '.') }}">{{ r.phone }}</a></td>
+  <td>{{ r.class_name }}</td><td><span class="tag {{ r.status }}">{{ r.status }}</span></td>
+  <td><div class="acts">
+  {% if r.status=='baru' %}<form class="inline" method="post" action="{{ url_for('pendaftar_aksi', id=r.id, aksi='terima') }}"><button class="btn sm">Terima</button></form>
+  <form class="inline" method="post" action="{{ url_for('pendaftar_aksi', id=r.id, aksi='tolak') }}"><button class="btn sm soft">Tolak</button></form>{% endif %}
+  <form class="inline" method="post" action="{{ url_for('pendaftar_aksi', id=r.id, aksi='hapus') }}" onsubmit="return confirm('Hapus data ini?')"><button class="btn sm danger">Hapus</button></form></div></td></tr>
+{% else %}<tr><td colspan="5">Belum ada pendaftar.</td></tr>{% endfor %}</table></div>
+{% endblock %}

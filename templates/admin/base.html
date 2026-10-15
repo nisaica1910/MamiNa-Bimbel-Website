@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Admin – {{ cfg.NAMA }}{% endblock %}
+{% block content %}<section style="padding-top:20px"><div class="wrap">
+  <nav class="admin-nav" aria-label="Menu admin">
+    {% set items = [('dashboard','Ringkasan'),('pendaftar','Pendaftar'),('murid','Murid'),('kelas','Kelas'),('absensi','Absensi'),('spp','Pembayaran'),('karya','Karya')] %}
+    {% for ep, label in items %}<a href="{{ url_for(ep) }}" class="{{ 'on' if request.endpoint==ep }}">{{ label }}</a>{% endfor %}
+    <a href="{{ url_for('logout') }}" style="margin-left:auto">Keluar</a>
+  </nav>
+  {% block admin %}{% endblock %}
+</div></section>{% endblock %}
