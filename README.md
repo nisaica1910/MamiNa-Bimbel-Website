@@ -8,7 +8,6 @@ cp .env.example .env
 python app.py
 ```
 Buka http://127.0.0.1:5001. Tanpa kredensial Firebase, app jalan di **mode demo** (data di memori, hilang saat restart).
-Admin: /admin/login, password default `admin123` (ganti di `.env`).
 
 ## Hubungkan Firebase
 1. console.firebase.google.com → buat project.
